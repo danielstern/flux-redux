@@ -1,5 +1,6 @@
 import { generate as id } from 'shortid';
 import { Dispatcher, ReduceStore } from './flux';
+// import $ from 'cheerio';
 
 const tasksDispatcher = new Dispatcher();
 
@@ -82,7 +83,7 @@ class TasksStore extends ReduceStore {
 const tasksStore = new TasksStore(tasksDispatcher);
 
 const TaskComponent = ({content,complete,id})=>(
-    `<div>${content} - <input type="checkbox" name="taskCompleteCheck" data-taskid=${id} ${complete ? "checked" : ""}> </div>`
+    `<section>${content} - <input type="checkbox" name="taskCompleteCheck" data-taskid=${id} ${complete ? "checked" : ""}> </section>`
 )
 
 const render = () => {
