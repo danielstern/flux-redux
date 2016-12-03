@@ -14,6 +14,7 @@ module.exports = {
                 // Options to configure babel with
                 query: {
                     presets: ['es2015'],
+                    plugins: ['transform-object-rest-spread']
                 }
             },
         ]

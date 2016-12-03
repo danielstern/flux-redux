@@ -1,6 +1,4 @@
 import { Dispatcher, Store } from './flux';
-// Still thinking about bringing in jquery...
-// import $ from 'jquery';
 
 const controlPanelDispatcher = new Dispatcher();
 

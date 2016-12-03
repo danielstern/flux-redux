@@ -12,10 +12,17 @@
 </p>
 <section id=tasks></section>
 <form name="newTask">
-    <input type="text" placeholder="Add a new task">
+    <input type="text" name="newTaskName" placeholder="Add a new task">
     <input type="submit" value="Add">
-
 </form>
+<form name="undo">
+    <input type="submit" value="Undo Last Change">
+</form>
+
+</div>
+<label>
+    Show Completed <input type="checkbox" id="showCompleted">
+</label>
 <script src="assets/tasks.bundle.js"></script>
 </body>
 </html>
