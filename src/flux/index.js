@@ -42,7 +42,6 @@ export class ReduceStore extends Store {
     __onDispatch(action){
         const newState = this.reduce(this.__state,action);
         if (newState !== this.__state) {
-            console.log("Reducer has changed the state");
             this.__history.push(this.__state);
             this.__state = newState;
             this.__emitChange();

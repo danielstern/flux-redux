@@ -44,7 +44,12 @@ class TasksStore extends ReduceStore {
                 id: id(),
                 content: "Post to social media",
                 complete: false
-            }]
+            },{
+                id: id(),
+                content: "Install hard drive",
+                complete: true
+            }],
+            showComplete:false
         };
     }
     reduce(state,action){
@@ -58,17 +63,14 @@ class TasksStore extends ReduceStore {
                     complete: false
                 })
                 return newState;
-                break;
             case COMPLETE_TASK:
-                console.log("THE TASK IS COMPLETED?",action);
-                // debugger;
                 newState = { ... state, tasks: [ ... state.tasks ]};
                 const affectedElementIndex = newState.tasks.findIndex(t=>t.id === action.id);
                 newState.tasks[affectedElementIndex] = { ... state.tasks[affectedElementIndex], complete: action.value }
-
                 return newState;
-
-                break;
+            case SHOW_TASKS:
+                newState = { ... state, showComplete: action.value };
+                return newState;
         }
         return state;
     }
@@ -89,8 +91,13 @@ const TaskComponent = ({content,complete,id})=>(
 
 const render = () => {
     const tasksSection = document.getElementById(`tasks`);
-    const rendered = tasksStore.getState().tasks.map(TaskComponent).join("");
+    const state = tasksStore.getState();
+    const rendered = tasksStore.getState().tasks
+        .filter(task=>state.showComplete ? true : !task.complete)
+        .map(TaskComponent).join("");
     tasksSection.innerHTML = rendered;
+
+    /* Add listeners to newly generated checkboxes */
     document.getElementsByName('taskCompleteCheck').forEach(element=>{
         element.addEventListener('change',(e)=>{
             const id = e.target.attributes['data-taskid'].value;
@@ -112,6 +119,11 @@ document.forms.newTask.addEventListener('submit',(e)=>{
 document.forms.undo.addEventListener('submit',(e)=>{
     e.preventDefault();
     tasksStore.revertLastState();
+})
+
+document.getElementById(`showComplete`).addEventListener('change',({target})=>{
+    const showComplete = target.checked;
+    tasksDispatcher.dispatch(showTasksAction(showComplete));
 })
 
 tasksStore.addListener(()=>{
