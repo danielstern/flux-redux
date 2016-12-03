@@ -85,10 +85,6 @@ const TaskComponent = ({content,complete,id})=>(
     `<div>${content} - <input type="checkbox" name="taskCompleteCheck" data-taskid=${id} ${complete ? "checked" : ""}> </div>`
 )
 
-// const handleTaskComplete = (e) =>{
-//     console.log(e);
-// }
-
 const render = () => {
     const tasksSection = document.getElementById(`tasks`);
     const state = tasksStore.getState();
