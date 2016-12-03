@@ -50,7 +50,7 @@ class TasksStore extends ReduceStore {
                 content: "Install hard drive",
                 complete: true
             }],
-            showComplete:false
+            showComplete:true
         };
     }
     reduce(state,action){
@@ -83,7 +83,9 @@ class TasksStore extends ReduceStore {
 const tasksStore = new TasksStore(tasksDispatcher);
 
 const TaskComponent = ({content,complete,id})=>(
-    `<section>${content} - <input type="checkbox" name="taskCompleteCheck" data-taskid=${id} ${complete ? "checked" : ""}> </section>`
+    `<section>
+        ${content} <input type="checkbox" name="taskCompleteCheck" data-taskid=${id} ${complete ? "checked" : ""}> 
+    </section>`
 )
 
 const render = () => {
@@ -101,7 +103,11 @@ const render = () => {
             const checked= e.target.checked;
             tasksDispatcher.dispatch(completeTaskAction(id,checked));
         })
-    })
+    });
+
+    if (localStorage[`preferences`]) {
+        document.getElementById('userNameDisplay').innerHTML = JSON.parse(localStorage[`preferences`]).userName;
+    }
 }
 
 document.forms.newTask.addEventListener('submit',(e)=>{

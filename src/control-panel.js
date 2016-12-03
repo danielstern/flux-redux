@@ -61,7 +61,7 @@ fontSizeForm.fontSize.forEach(element=>{
 
 const render = ({userName,fontSize})=>{
     document.getElementById("userName").innerText = userName;
-    document.body.style.fontSize = fontSize === "small" ? "12px" : "24px";
+    document.getElementsByClassName("container")[0].style.fontSize = fontSize === "small" ? "16px" : "24px";
     fontSizeForm.fontSize.value = fontSize;
 
 }

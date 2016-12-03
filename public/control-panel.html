@@ -2,25 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Productivity App - Control Panel</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
 </head>
-<body class=container>
-<h1>Control Panel</h1>
-<p>
-    Welcome, <span id=userName>Jim!</span>
-</p>
-<label>
-    Update your username
-    <input type="text" id=userNameInput>
-</label>
-<form name="fontSizeForm">
-    <h4>
-        Font size:
-    </h4>
-    <input type="radio" name="fontSize" value="large" checked> Large<br>
-    <input type="radio" name="fontSize" value="small"> Small<br>
-</form>
+<body>
+<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+    <a class="navbar-brand" href="#">Productivity App</a>
+    <ul class="nav navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="tasks.html">Tasks</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="control-panel.html">Control Panel</a>
+        </li>
+    </ul>
+</nav>
+<section class="container">
+    <h1>Control Panel</h1>
+    <p>
+        Welcome, <span id=userName>Jim!</span>
+    </p>
+    <!--<label>-->
+        <!--Update your username-->
+        <!--<input type="text" id=userNameInput>-->
+    <!--</label>-->
+    <form class="form-inline">
+        <input type="text" class="form-control" id=userNameInput placeholder="Update Your Username">
+    </form>
+    <form name="fontSizeForm">
+        <h4>
+            Font size:
+        </h4>
+        <input type="radio" name="fontSize" value="large" checked> Large<br>
+        <input type="radio" name="fontSize" value="small"> Small<br>
+    </form>
+</section>
 
 <script src="assets/cpanel.bundle.js"></script>
 </body>
