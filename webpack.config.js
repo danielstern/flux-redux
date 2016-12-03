@@ -21,7 +21,7 @@ module.exports = {
     },
     entry: {
         cpanel: ["./src/control-panel.js"],
-        board: ["./src/message-board.js"],
+        "message-board": ["./src/message-board.js"],
         tasks: ["./src/tasks.js"]
     },
     output: {
