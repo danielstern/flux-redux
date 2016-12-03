@@ -21,6 +21,8 @@ module.exports = {
     entry: {
         app: ["./src/index.js"]
     },
+    devServer: { inline: true },
+    devtool: 'source-map',
     output: {
         path: path.resolve(__dirname, "public"),
         publicPath: "/assets/",
