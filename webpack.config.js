@@ -19,13 +19,25 @@ module.exports = {
         ]
     },
     entry: {
-        app: ["./src/index.js"]
+        cpanel: ["./src/control-panel.js"],
+        board: ["./src/message-board.js"],
+        tasks: ["./src/tasks.js"]
     },
-    devServer: { inline: true },
-    devtool: 'source-map',
     output: {
         path: path.resolve(__dirname, "public"),
         publicPath: "/assets/",
-        filename: "bundle.js"
-    }
+        filename: "[name].bundle.js"
+    },
+    // entry: {
+    //     a: "./a",
+    //     b: "./b",
+    //     c: ["./c", "./d"]
+    // },
+    // output: {
+    //     path: path.join(__dirname, "public"),
+    //     filename: "[name].entry.js"
+    // },
+    devServer: { inline: true },
+    devtool: 'source-map',
+
 }
