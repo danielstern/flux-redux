@@ -1,14 +1,11 @@
 import { generate as id } from 'shortid';
 import { Dispatcher, ReduceStore } from './flux';
-import Immutable from 'immutable';
 
 const tasksDispatcher = new Dispatcher();
 
 const CREATE_TASK = `CREATE_TASK`;
 const COMPLETE_TASK = `COMPLETE_TASK`
 const SHOW_TASKS = `SHOW_TASKS`;
-
-const state = new Immutable.OrderedMap();
 
 const createNewTaskAction = (content)=>{
     return {
@@ -17,7 +14,7 @@ const createNewTaskAction = (content)=>{
     }
 }
 
-const completeTaskAction = ({id,isComplete})=>{
+const completeTaskAction = (id,isComplete)=>{
     return {
         type: COMPLETE_TASK,
         id,
@@ -51,34 +48,56 @@ class TasksStore extends ReduceStore {
         };
     }
     reduce(state,action){
+        let newState;
         switch(action.type) {
             case CREATE_TASK:
-                console.log("CREATE TASK!");
-                const newState = { tasks: [ ... state.tasks ]};
+                newState = { ...state, tasks: [ ... state.tasks ]};
                 newState.tasks.push({
                     id:id(),
                     content:action.value,
                     complete: false
                 })
                 return newState;
+                break;
+            case COMPLETE_TASK:
+                console.log("THE TASK IS COMPLETED?",action);
+                // debugger;
+                newState = { ... state, tasks: [ ... state.tasks ]};
+                const affectedElementIndex = newState.tasks.findIndex(t=>t.id === action.id);
+                newState.tasks[affectedElementIndex] = { ... state.tasks[affectedElementIndex], complete: action.value }
+
+                return newState;
+
+                break;
         }
         return state;
     }
-    getTasks(){
-        return this.__state.tasks;
+    getState(){
+        return this.__state;
     }
 }
 
 const tasksStore = new TasksStore(tasksDispatcher);
 
-const TaskComponent = ({content,complete})=>(
-    `<div>${content} - <input type="checkbox" ${complete ? "checked" : ""} </div>`
+const TaskComponent = ({content,complete,id})=>(
+    `<div>${content} - <input type="checkbox" name="taskCompleteCheck" data-taskid=${id} ${complete ? "checked" : ""}> </div>`
 )
 
-const render = ({tasks}) => {
+// const handleTaskComplete = (e) =>{
+//     console.log(e);
+// }
+
+const render = () => {
     const tasksSection = document.getElementById(`tasks`);
-    const rendered = tasksStore.getTasks().map(TaskComponent).join("");
+    const rendered = tasksStore.getState().tasks.map(TaskComponent).join("");
     tasksSection.innerHTML = rendered;
+    document.getElementsByName('taskCompleteCheck').forEach(element=>{
+        element.addEventListener('change',(e)=>{
+            const id = e.target.attributes['data-taskid'].value;
+            const checked= e.target.checked;
+            tasksDispatcher.dispatch(completeTaskAction(id,checked));
+        })
+    })
 }
 
 document.forms.newTask.addEventListener('submit',(e)=>{
@@ -95,9 +114,8 @@ document.forms.undo.addEventListener('submit',(e)=>{
     tasksStore.revertLastState();
 })
 
-tasksStore.addListener((state)=>{
-    console.log("Got state...",state);
-    render(state);
+tasksStore.addListener(()=>{
+    render();
 })
 
-render({tasks})
+render();
