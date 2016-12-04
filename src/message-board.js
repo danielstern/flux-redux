@@ -5,6 +5,7 @@ export const AWAY = `AWAY`;
 export const BUSY = `BUSY`;
 export const CREATE_NEW_MESSAGE = `CREATE_NEW_MESSAGE`;
 export const UPDATE_STATUS = `UPDATE_STATUS`;
+export const OFFLINE = `OFFLINE`;
 
 const defaultState = {
     messages:[{
@@ -26,6 +27,8 @@ const defaultState = {
 
 const newMessageAction = (content, postedBy)=>{
     const date = new Date();
+
+    // TODO... add asnychronicity to this action creator
 
     return {
         type: CREATE_NEW_MESSAGE,
@@ -69,7 +72,7 @@ const combinedReducer = combineReducers({
 
 const store = createStore(combinedReducer, defaultState);
 const render = ()=>{
-    const messages = store.getState().messages;
+    const {messages, userStatus} = store.getState();
     document.getElementById("messages").innerHTML = messages
         .sort((a,b)=>b.date - a.date)
         .map(message=>(`
@@ -79,6 +82,7 @@ const render = ()=>{
     )).join("");
 
     document.forms.newMessage.newMessage.value = "";
+    document.forms.newMessage.fields.disabled = (userStatus === OFFLINE);
 
 }
 
@@ -88,6 +92,10 @@ document.forms.newMessage.addEventListener("submit",(e)=>{
     const username = localStorage[`preferences`] ? JSON.parse(localStorage[`preferences`]).userName : "Jim";
     store.dispatch(newMessageAction(value, username));
 });
+
+document.forms.selectStatus.status.addEventListener("change",(e)=>{
+    store.dispatch(statusUpdateAction(e.target.value));
+})
 
 render();
 

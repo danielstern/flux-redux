@@ -33,15 +33,18 @@
         <!--</button>-->
     <!--</form>-->
     <form class="form-inline" name="newMessage">
-        <input type="text" class="form-control" name="newMessage" placeholder="Type a new message">
-        <button type="submit" class="btn btn-primary">Say something</button>
+        <fieldset name="fields">
+            <input type="text" class="form-control" name="newMessage" placeholder="Type a new message">
+            <button type="submit" class="btn btn-primary">Say something</button>
+        </fieldset>
 
     </form>
     <form class="form-inline" name="selectStatus">
         <select name="status" id="" class="custom-select">
-            <option value="online">Online</option>
-            <option value="online">Away</option>
-            <option value="online">Busy</option>
+            <option value="ONLINE">Online</option>
+            <option value="AWAY">Away</option>
+            <option value="BUSY">Busy</option>
+            <option value="OFFLINE">Offline</option>
         </select>
     </form>
 </section>
