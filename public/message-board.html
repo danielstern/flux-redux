@@ -1,3 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Productivity App - Message Board</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+    <a class="navbar-brand" href="/">Productivity App</a>
+    <ul class="nav navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="message-board.html">Message Board</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="tasks.html">Tasks</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="control-panel.html">Control Panel</a>
+        </li>
+    </ul>
+</nav>
+<section class="container">
+    <div class="card">
+    <section id="messages" class="card-block"></section>
+    </div>
 
-<section id="messages"></section>
-<script src="assets/message-board.bundle.js"></script>
+    <!--<form name="New Message">-->
+        <!--<input type="text" class="form-control" placeholder="Type a new message">-->
+        <!--<button type="submit">-->
+            <!--Say something-->
+        <!--</button>-->
+    <!--</form>-->
+    <form class="form-inline" name="newMessage">
+        <input type="text" class="form-control" name="newTaskName" placeholder="Type a new message">
+        <button type="submit" class="btn btn-primary">Say something</button>
+
+    </form>
+    <form class="form-inline" name="selectStatus">
+        <select name="status" id="" class="custom-select">
+            <option value="online">Online</option>
+            <option value="online">Away</option>
+            <option value="online">Busy</option>
+        </select>
+    </form>
+</section>
+    <script src="assets/message-board.bundle.js"></script>
+</body>

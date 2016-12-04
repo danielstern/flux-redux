@@ -1,5 +1,12 @@
-import { createStore } from 'redux'
-const state = {
+import { createStore, combineReducers } from 'redux'
+
+export const ONLINE = `ONLINE`;
+export const AWAY = `AWAY`;
+export const BUSY = `BUSY`;
+export const CREATE_NEW_MESSAGE = `CREATE_NEW_MESSAGE`;
+export const UPDATE_STATUS = `UPDATE_STATUS`;
+
+const defaultState = {
     messages:[{
         date:new Date(),
         postedBy:`Stan`,
@@ -12,9 +19,10 @@ const state = {
         date:new Date() + 1,
         postedBy:`Llewlyn`,
         content:`Anyone got tickets to ng-conf?`
-    }]
+    }],
+    userStatus: ONLINE
 }
-export const CREATE_NEW_MESSAGE = `CREATE_NEW_MESSAGE`;
+
 
 const newMessageAction = (content, postedBy)=>{
     return {
@@ -24,13 +32,39 @@ const newMessageAction = (content, postedBy)=>{
     }
 }
 
-const reducer = (state = state, action) => {
+const statusUpdateAction = (value)=>{
+    return {
+        type: UPDATE_STATUS,
+        value
+    }
+}
+
+const userStatusReducer = (state = ONLINE, {type, value}) => {
+    switch (type) {
+        case UPDATE_STATUS:
+            return value;
+    }
     return state;
 }
 
-const store = createStore(reducer, state);
+
+const messageReducer = (state = defaultState.messages, {type, value}) => {
+    switch (type) {
+        case CREATE_NEW_MESSAGE:
+            return value;
+    }
+    return state;
+}
+
+const combinedReducer = combineReducers({
+    userStatus: userStatusReducer,
+    messages: messageReducer
+})
+
+const store = createStore(combinedReducer, defaultState);
 const render = ()=>{
     const messages = store.getState().messages;
+    console.log(store.getState());
     document.getElementById("messages").innerHTML = messages
         .sort((a,b)=>b.date - a.date)
         .map(message=>(`
@@ -40,7 +74,7 @@ const render = ()=>{
     )).join("");
 
 }
-// debugger;
+
 render();
 
 store.subscribe(render)
