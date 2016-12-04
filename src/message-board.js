@@ -8,15 +8,15 @@ export const UPDATE_STATUS = `UPDATE_STATUS`;
 
 const defaultState = {
     messages:[{
-        date:new Date(),
+        date:new Date('2016-10-10 10:11:55'),
         postedBy:`Stan`,
-        content:`I <3 the new productivity app`
+        content:`I <3 the new productivity app!`
     },{
-        date:new Date() + 1,
+        date:new Date('2016-10-10 10:12:00'),
         postedBy:`Jerry`,
-        content:`No one ever got fired for using Redux...`
+        content:`I don't know if the new version of Bootstrap is really better...`
     },{
-        date:new Date() + 1,
+        date:new Date('2016-10-10 12:06:04'),
         postedBy:`Llewlyn`,
         content:`Anyone got tickets to ng-conf?`
     }],
@@ -25,10 +25,13 @@ const defaultState = {
 
 
 const newMessageAction = (content, postedBy)=>{
+    const date = new Date();
+
     return {
         type: CREATE_NEW_MESSAGE,
         value: content,
-        postedBy
+        postedBy,
+        date
     }
 }
 
@@ -48,10 +51,13 @@ const userStatusReducer = (state = ONLINE, {type, value}) => {
 }
 
 
-const messageReducer = (state = defaultState.messages, {type, value}) => {
+const messageReducer = (state = defaultState.messages, {type, value, postedBy, date}) => {
     switch (type) {
         case CREATE_NEW_MESSAGE:
-            return value;
+            console.log("Create message",value, state);
+            const newState = [ { date: date, postedBy, content: value } , ... state ]
+            return newState;
+            // break;
     }
     return state;
 }
@@ -64,7 +70,6 @@ const combinedReducer = combineReducers({
 const store = createStore(combinedReducer, defaultState);
 const render = ()=>{
     const messages = store.getState().messages;
-    console.log(store.getState());
     document.getElementById("messages").innerHTML = messages
         .sort((a,b)=>b.date - a.date)
         .map(message=>(`
@@ -73,7 +78,16 @@ const render = ()=>{
     </div>`
     )).join("");
 
+    document.forms.newMessage.newMessage.value = "";
+
 }
+
+document.forms.newMessage.addEventListener("submit",(e)=>{
+    e.preventDefault();
+    const value = e.target.newMessage.value;
+    const username = localStorage[`preferences`] ? JSON.parse(localStorage[`preferences`]).userName : "Jim";
+    store.dispatch(newMessageAction(value, username));
+});
 
 render();
 
