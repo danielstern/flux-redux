@@ -10,7 +10,7 @@ const path = require('path');
 // };
 //
 // module.exports = MyPlugin;
-require('./src/server');
+// require('./src/server');
 module.exports = {
     module: {
         loaders: [

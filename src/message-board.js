@@ -1,4 +1,5 @@
 import { createStore, combineReducers } from 'redux'
+import { get } from './http';
 
 export const ONLINE = `ONLINE`;
 export const AWAY = `AWAY`;
@@ -6,6 +7,8 @@ export const BUSY = `BUSY`;
 export const CREATE_NEW_MESSAGE = `CREATE_NEW_MESSAGE`;
 export const UPDATE_STATUS = `UPDATE_STATUS`;
 export const OFFLINE = `OFFLINE`;
+
+
 
 const defaultState = {
     messages:[{
