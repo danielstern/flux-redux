@@ -1,4 +1,15 @@
 const path = require('path');
+function MyPlugin() {
+    // Configure your plugin with options...
+}
+
+MyPlugin.prototype.apply = function(compiler) {
+    compiler.plugin("compile", function(params) {
+        require('./src/server');
+    });
+};
+
+module.exports = MyPlugin;
 module.exports = {
     module: {
         loaders: [
@@ -29,16 +40,10 @@ module.exports = {
         publicPath: "/assets/",
         filename: "[name].bundle.js"
     },
-    // entry: {
-    //     a: "./a",
-    //     b: "./b",
-    //     c: ["./c", "./d"]
-    // },
-    // output: {
-    //     path: path.join(__dirname, "public"),
-    //     filename: "[name].entry.js"
-    // },
     devServer: { inline: true },
     devtool: 'source-map',
+    plugins: [
+        new MyPlugin()
+    ]
 
 }
