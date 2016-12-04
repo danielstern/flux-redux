@@ -97,9 +97,13 @@ const combinedReducer = combineReducers({
     apiCommunicationStatus: apiCommunicationStatusReducer
 })
 
-const store = createStore(combinedReducer, applyMiddleware(logger()));
+const store = createStore(
+    combinedReducer,
+    applyMiddleware(logger())
+);
+
 const render = ()=>{
-    const {messages, userStatus} = store.getState();
+    const {messages, userStatus, apiCommunicationStatus} = store.getState();
     document.getElementById("messages").innerHTML = messages
         .sort((a,b)=>b.date - a.date)
         .map(message=>(`
@@ -109,7 +113,7 @@ const render = ()=>{
     )).join("");
 
     document.forms.newMessage.newMessage.value = "";
-    document.forms.newMessage.fields.disabled = (userStatus === OFFLINE);
+    document.forms.newMessage.fields.disabled = (userStatus === OFFLINE) || (apiCommunicationStatus === WAITING);
 
 }
 
