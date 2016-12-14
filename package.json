@@ -10,11 +10,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "redux": "^3.6.0",
-    "redux-logger": "^2.7.4",
-    "shortid": "^2.2.6"
-  },
+  "dependencies": {  },
   "engine": "node 7.2.0",
   "devDependencies": {
     "babel-core": "^6.18.2",

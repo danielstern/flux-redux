@@ -1,16 +1,4 @@
 const path = require('path');
-// function MyPlugin() {
-//     // Configure your plugin with options...
-// }
-//
-// MyPlugin.prototype.apply = function(compiler) {
-//     compiler.plugin("compile", function(params) {
-//         require('./src/server');
-//     });
-// };
-//
-// module.exports = MyPlugin;
-// require('./src/server');
 module.exports = {
     module: {
         loaders: [
@@ -32,9 +20,7 @@ module.exports = {
         ]
     },
     entry: {
-        cpanel: ["./src/control-panel.js"],
-        "message-board": ["./src/message-board.js"],
-        tasks: ["./src/tasks.js"]
+        "cpanel": ["./src/control-panel.js"]
     },
     output: {
         path: path.resolve(__dirname, "public"),
@@ -43,8 +29,4 @@ module.exports = {
     },
     devServer: { inline: true },
     devtool: 'source-map',
-    // plugins: [
-    //     new MyPlugin()
-    // ]
-
 }
