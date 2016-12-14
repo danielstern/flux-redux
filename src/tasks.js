@@ -1,11 +1,10 @@
 import { generate as id } from 'shortid';
 import { Dispatcher, ReduceStore } from './flux';
-// import $ from 'cheerio';
 
 const tasksDispatcher = new Dispatcher();
 
 const CREATE_TASK = `CREATE_TASK`;
-const COMPLETE_TASK = `COMPLETE_TASK`
+const COMPLETE_TASK = `COMPLETE_TASK`;
 const SHOW_TASKS = `SHOW_TASKS`;
 
 const createNewTaskAction = (content)=>{
