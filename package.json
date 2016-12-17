@@ -10,7 +10,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {  },
+  "dependencies": {
+    "shortid": "^2.2.6"
+  },
   "engine": "node 7.2.0",
   "devDependencies": {
     "babel-core": "^6.18.2",
