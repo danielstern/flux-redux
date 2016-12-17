@@ -108,10 +108,6 @@ const render = () => {
             tasksDispatcher.dispatch(completeTaskAction(id,checked));
         })
     });
-
-    // if (localStorage[`preferences`]) {
-    //     document.getElementById('userNameDisplay').innerHTML = JSON.parse(localStorage[`preferences`]).userName;
-    // }
 };
 
 document.forms.newTask.addEventListener('submit',(e)=>{
@@ -123,10 +119,10 @@ document.forms.newTask.addEventListener('submit',(e)=>{
     }
 });
 
-// document.forms.undo.addEventListener('submit',(e)=>{
-//     e.preventDefault();
-//     tasksStore.revertLastState();
-// })
+document.forms.undo.addEventListener('submit',(e)=>{
+    e.preventDefault();
+    tasksStore.revertLastState();
+})
 
 document.getElementById(`showComplete`).addEventListener('change',({target})=>{
     const showComplete = target.checked;
