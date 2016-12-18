@@ -1,5 +1,8 @@
 console.log(`Message board`);
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { get } from './http';
+import logger from 'redux-logger';
+
 
 export const ONLINE = `ONLINE`;
 export const AWAY = `AWAY`;
@@ -7,6 +10,11 @@ export const BUSY = `BUSY`;
 export const UPDATE_STATUS = `UPDATE_STATUS`;
 export const OFFLINE = `OFFLINE`;
 export const CREATE_NEW_MESSAGE = `CREATE_NEW_MESSAGE`;
+export const NEW_MESSAGE_SERVER_ACCEPTED = `NEW_MESSAGE_SERVER_ACCEPTED`;
+export const READY = `READY`;
+export const WAITING = `WAITING`;
+
+
 
 
 const statusUpdateAction = (value)=>{
@@ -18,6 +26,16 @@ const statusUpdateAction = (value)=>{
 
 const newMessageAction = (content, postedBy)=>{
     const date = new Date();
+
+    get('/api/create',(id=>{
+        store.dispatch({
+            type: NEW_MESSAGE_SERVER_ACCEPTED,
+            value: content,
+            postedBy,
+            date,
+            id
+        })
+    }));
 
     return {
         type: CREATE_NEW_MESSAGE,
@@ -44,6 +62,7 @@ const defaultState = {
         content:`Anyone got tickets to ng-conf?`
     }],
     userStatus: ONLINE,
+    apiCommunicationStatus: READY
 }
 
 
@@ -56,6 +75,17 @@ const userStatusReducer = (state = defaultState.userStatus, {type, value}) => {
     return state;
 };
 
+const apiCommunicationStatusReducer = (state = defaultState.apiCommunicationStatus, {type}) => {
+    switch (type) {
+        case CREATE_NEW_MESSAGE:
+            return WAITING;
+        case NEW_MESSAGE_SERVER_ACCEPTED:
+            return READY;
+    }
+    return state;
+}
+
+
 const messagesReducer = (state = defaultState.messages, {type,value,postedBy,date})=>{
     switch (type) {
         case CREATE_NEW_MESSAGE:
@@ -67,10 +97,14 @@ const messagesReducer = (state = defaultState.messages, {type,value,postedBy,dat
 
 const combinedReducer = combineReducers({
     userStatus: userStatusReducer,
-    messages: messagesReducer
+    messages: messagesReducer,
+    apiCommunicationStatus: apiCommunicationStatusReducer
 });
 
-const store = createStore(combinedReducer);
+const store = createStore(
+    combinedReducer,
+    applyMiddleware(logger())
+);
 
 const render = ()=>{
     const {messages, userStatus, apiCommunicationStatus} = store.getState();
@@ -83,7 +117,7 @@ const render = ()=>{
         )).join("");
 
     document.forms.newMessage.newMessage.value = "";
-    document.forms.newMessage.fields.disabled = (userStatus === OFFLINE);
+    document.forms.newMessage.fields.disabled = (userStatus === OFFLINE) || (apiCommunicationStatus === WAITING);
 }
 
 document.forms.selectStatus.status.addEventListener("change",(e)=>{
@@ -100,3 +134,7 @@ document.forms.newMessage.addEventListener("submit",(e)=>{
 render();
 
 store.subscribe(render);
+
+get('/test',(id)=>{
+    console.log("Tested async...",id);
+})
