@@ -1,4 +1,3 @@
-console.log(`Message board`);
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { get } from './http';
 import logger from 'redux-logger';
@@ -134,7 +133,3 @@ document.forms.newMessage.addEventListener("submit",(e)=>{
 render();
 
 store.subscribe(render);
-
-get('/test',(id)=>{
-    console.log("Tested async...",id);
-})
