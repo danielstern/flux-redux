@@ -1,16 +1,29 @@
 console.log(`Message board`);
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 
 export const ONLINE = `ONLINE`;
 export const AWAY = `AWAY`;
 export const BUSY = `BUSY`;
 export const UPDATE_STATUS = `UPDATE_STATUS`;
 export const OFFLINE = `OFFLINE`;
+export const CREATE_NEW_MESSAGE = `CREATE_NEW_MESSAGE`;
+
 
 const statusUpdateAction = (value)=>{
     return {
         type: UPDATE_STATUS,
         value
+    }
+}
+
+const newMessageAction = (content, postedBy)=>{
+    const date = new Date();
+
+    return {
+        type: CREATE_NEW_MESSAGE,
+        value: content,
+        postedBy,
+        date
     }
 }
 
@@ -35,16 +48,29 @@ const defaultState = {
 
 
 
-const reducer = (state=defaultState,{type,value})=>{
+const userStatusReducer = (state = defaultState.userStatus, {type, value}) => {
     switch (type) {
         case UPDATE_STATUS:
-            return {...state, userStatus: value};
-            break;
+            return value;
+    }
+    return state;
+};
+
+const messagesReducer = (state = defaultState.messages, {type,value,postedBy,date})=>{
+    switch (type) {
+        case CREATE_NEW_MESSAGE:
+            const newState = [ { date: date, postedBy, content: value } , ... state ];
+            return newState;
     }
     return state;
 }
 
-const store = createStore(reducer);
+const combinedReducer = combineReducers({
+    userStatus: userStatusReducer,
+    messages: messagesReducer
+});
+
+const store = createStore(combinedReducer);
 
 const render = ()=>{
     const {messages, userStatus, apiCommunicationStatus} = store.getState();
@@ -62,7 +88,14 @@ const render = ()=>{
 
 document.forms.selectStatus.status.addEventListener("change",(e)=>{
     store.dispatch(statusUpdateAction(e.target.value));
-})
+});
+
+document.forms.newMessage.addEventListener("submit",(e)=>{
+    e.preventDefault();
+    const value = e.target.newMessage.value;
+    const username = localStorage[`preferences`] ? JSON.parse(localStorage[`preferences`]).userName : "Jim";
+    store.dispatch(newMessageAction(value, username));
+});
 
 render();
 
