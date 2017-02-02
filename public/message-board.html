@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Productivity App - Control Panel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body class="container">
+<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+    <a class="navbar-brand" href="/">Productivity App</a>
+    <ul class="nav navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="control-panel.html">Control Panel</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="tasks.html">Tasks</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="message-board.html">Message Board</a>
+        </li>
+    </ul>
+</nav>
+<section class="container">
+    <h1>Message Board</h1>
+    <div class="card">
+        <section id="messages" class="card-block"></section>
+    </div>
+
+    <form class="form-inline" name="newMessage">
+        <fieldset name="fields">
+            <input type="text" class="form-control" name="newMessage" placeholder="Type a new message">
+            <button type="submit" class="btn btn-primary">Say something</button>
+        </fieldset>
+    </form>
+
+    <form class="form-inline" name="selectStatus">
+        <select name="status" id="" class="custom-select">
+            <option value="ONLINE">Online</option>
+            <option value="AWAY">Away</option>
+            <option value="BUSY">Busy</option>
+            <option value="OFFLINE">Offline</option>
+        </select>
+    </form>
+</section>
+<script src="assets/message-board.bundle.js"></script>
+</body>
+</html>
