@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { get } from './http';
-import logger from 'redux-logger';
+import { createLogger } from 'redux-logger'
 
 export const ONLINE = `ONLINE`;
 export const AWAY = `AWAY`;
@@ -99,7 +99,7 @@ const combinedReducer = combineReducers({
 
 const store = createStore(
     combinedReducer,
-    applyMiddleware(logger())
+    applyMiddleware(createLogger())
 );
 
 const render = ()=>{
@@ -107,7 +107,7 @@ const render = ()=>{
     document.getElementById("messages").innerHTML = messages
         .sort((a,b)=>b.date - a.date)
         .map(message=>(`
-    <div> 
+    <div>
         ${message.postedBy} : ${message.content}
     </div>`
     )).join("");
